@@ -1,3 +1,8 @@
+const body = document.body;
+const buttons = document.querySelectorAll("button");
+const humScore = document.querySelector(".human-score");
+const compScore = document.querySelector(".computer-score");
+
 function computerChoice() {
   let value = Math.random();
   let choice = "";
@@ -13,8 +18,8 @@ function computerChoice() {
 }
 
 function humanChoice() {
-  let promptValue = prompt("Choose Rock, Paper or Scissor");
-  let value = promptValue.toLocaleUpperCase();
+  let humanVal = prompt("Enter Rock, Paper, Scissor");
+  let value = humanVal.toLocaleUpperCase();
   let choice = "";
   if (value == "ROCK") {
     choice = "Rock";
@@ -26,56 +31,61 @@ function humanChoice() {
   return choice;
 }
 
-function playGame() {
-  let humanScore = 0;
-  let computerScore = 0;
-  let winner;
+let humanScore = 0;
+let computerScore = 0;
 
-  function playRound() {
-    let compVal = computerChoice();
-    let humVal = humanChoice();
-    let result = "";
+function playRound(humanVal) {
+  let compVal = computerChoice();
+  let humVal = humanVal;
+  let result = "";
 
-    if (compVal == humVal) {
-      result = "It's a Draw";
-    } else if (compVal == "Rock") {
-      if (humVal == "Paper") {
-        result = "Player wins";
-        humanScore++;
-      } else {
-        result = "Computer Wins";
-        computerScore++;
-      }
-    } else if (compVal == "Paper") {
-      if (humVal == "Scissor") {
-        result = "Player wins";
-        humanScore++;
-      } else {
-        result = "Computer Wins";
-        computerScore++;
-      }
-    } else if (compVal == "Scissor") {
-      if (humVal == "Rock") {
-        result = "Player wins";
-        humanScore++;
-      } else {
-        result = "Computer Wins";
-        computerScore++;
-      }
+  if (compVal == humVal) {
+    alert("It's a draw");
+  } else if (compVal == "Rock") {
+    if (humVal == "Paper") {
+      result = "Player wins";
+      humanScore++;
+      humScore.textContent = `Player Score: ${humanScore}`;
+    } else {
+      result = "Computer Wins";
+      computerScore++;
+      compScore.textContent = `Computer Score: ${computerScore}`;
     }
-    return (
-      result +
-      " | Human Score: " +
-      humanScore +
-      " | Computer Score: " +
-      computerScore
-    );
+  } else if (compVal == "Paper") {
+    if (humVal == "Scissor") {
+      result = "Player wins";
+      humanScore++;
+      humScore.textContent = `Player Score: ${humanScore}`;
+    } else {
+      result = "Computer Wins";
+      computerScore++;
+      compScore.textContent = `Computer Score: ${computerScore}`;
+    }
+  } else if (compVal == "Scissor") {
+    if (humVal == "Rock") {
+      result = "Player wins";
+      humanScore++;
+      humScore.textContent = `Player Score: ${humanScore}`;
+    } else {
+      result = "Computer Wins";
+      computerScore++;
+      compScore.textContent = `Computer Score: ${computerScore}`;
+    }
   }
-
-  for (let i = 0; i < 5; i++) {
-    winner = playRound();
-    console.log(winner);
-  }
+  return (
+    result +
+    " | Human Score: " +
+    humanScore +
+    " | Computer Score: " +
+    computerScore
+  );
 }
 
-playGame();
+buttons.forEach((btn) => {
+  btn.addEventListener("click", function (e) {
+    let humanVal = e.target.textContent;
+    playRound(humanVal);
+  });
+});
+
+playRound();
